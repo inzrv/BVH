@@ -5,3 +5,23 @@ body {
 canvas { 
     border: 1px solid black; 
 }
+
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+#con2{
+    width: 100%;
+    border: 1px solid black;
+    height: 300px;
+    padding-left: 10px;
+    margin-left: 20px;
+}
+
+#con3{ 
+    padding-left: 20px;
+}

@@ -6,9 +6,23 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
-    <canvas height = "300", width="1000", id = 'scene' ></canvas>
-    <br>
-    <canvas height = "200", width="1000", id = 'tree' ></canvas>
+    <div class="container">
+
+      <div id="con1">
+        <canvas height = "500", width="1000", id = 'scene' ></canvas>
+      </div>
+
+      <div id="con2">
+        <p>Количество полигонов: <span id="polyNumber"></span></p>
+        <p>Высота дерева: <span id ="treeHeight"></span></p>
+        <p>Количество видимых узлов: <span id ="visNodesNumber"></span></p>
+      </div>
+
+    </div>
+
+    <div id="con3">
+      <canvas height = "200", width="1000", id = 'tree' ></canvas>
+    </div>
     <script src = "./scripts/index.js" type = "module"> </script>
   </body>
 </html>
