@@ -16,7 +16,6 @@ export class AABB {
             this.min, new Point(this.min.x, this.max.y));
     }
     draw(ctx, lWidth, sStyle,  fStyle) {
-
         ctx.lineWidth = lWidth;
         ctx.strokeStyle = sStyle;
         ctx.strokeRect(this.min.x, this.min.y, this.max.x - this.min.x, this.max.y - this.min.y);

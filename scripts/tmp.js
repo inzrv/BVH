@@ -3,12 +3,9 @@ import { MTriangle } from "./m_triangle.js";
 import { Camera } from "./camera.js";
 import { AABBTree } from "./aabb_tree.js";
 import { VisTree } from "./vis_tree.js";
-import { pointInAABB, pointInOBB, pointInTriangle, triangleAABBIntersection } from "./collision.js";
+import { pointInAABB, pointInTriangle, triangleAABBIntersection } from "./collision.js";
 import { Triangle } from "./triangle.js";
 import { AABB } from "./aabb.js";
-import { minOBB, OBB, OBBForOBBs, OBBForTriangle } from "./obb.js";
-import { compareOBBNodes, OBBTree } from "./obb_tree.js";
-import { Node, visibleNodesNumber } from "./tree.js";
 
 const sceneCanvas = document.getElementById('scene');
 const sceneContext = sceneCanvas.getContext('2d'); 
@@ -17,7 +14,6 @@ const sceneFillColor = 'white';
 const treeCanvas = document.getElementById('tree');
 const treeContext = treeCanvas.getContext('2d'); 
 const treeFillColor = 'white';
-
 
 // Отслеживание нажатия и отпускания клавиш
 const keys = {
@@ -36,45 +32,35 @@ const keys = {
  }
 
 
-let mesh = [];
-mesh.push(new MTriangle([new Point(510, 110), new Point(570, 120), new Point(600, 150)]));
-mesh.push(new MTriangle([new Point(700, 130), new Point(720, 150), new Point(710, 170)]));
-mesh.push(new MTriangle([new Point(540, 160), new Point(555, 165), new Point(548, 170)]));
-mesh.push(new MTriangle([new Point(800, 120), new Point(830, 130), new Point(845, 170)]));
-mesh.push(new MTriangle([new Point(800, 380), new Point(830, 380), new Point(845, 395)]));
-mesh.push(new MTriangle([new Point(860, 395), new Point(890, 370), new Point(870, 350)]));
+ let mesh = [];
 
-mesh.forEach(meshTriangle => {
-    meshTriangle.draw(sceneContext);
-});
-
-document.getElementById("polyNumber").innerHTML = mesh.length;
-
-let T = new OBBTree();
-T.buildUp(mesh);
-
-document.getElementById("treeHeight").innerHTML = T.root.level + 1;
+ mesh.push(new MTriangle([new Point(10, 10), new Point(70, 20), new Point(100, 50)]));
+ mesh.push(new MTriangle([new Point(120, 10), new Point(140, 10), new Point(130, 30)]));
+ mesh.push(new MTriangle([new Point(200, 30), new Point(220, 50), new Point(210, 70)]));
+ mesh.push(new MTriangle([new Point(50, 100), new Point(80, 90), new Point(70, 120)]));
+ mesh.push(new MTriangle([new Point(40, 60), new Point(55, 65), new Point(48, 70)]));
+ mesh.push(new MTriangle([new Point(300, 20), new Point(330, 30), new Point(345, 70)]));
+ mesh.push(new MTriangle([new Point(300, 280), new Point(330, 280), new Point(345, 295)]));
+ mesh.push(new MTriangle([new Point(345, 295), new Point(360, 270), new Point(330, 250)]));
 
 
 
-const VT = new VisTree(T, 2);
-VT.draw(treeContext, treeCanvas.clientWidth, treeCanvas.clientHeight);
 
-let camera = new Camera(0.9, 100);
+ const T = new AABBTree();
+ T.build(mesh);
 
-let h = 0;
+ const VT = new VisTree(T, 2);
+
+ let camera = new Camera(0.1, 10);
 
 
-function process() {
+ function process() {
     requestAnimationFrame(process);
     sceneContext.fillStyle = sceneFillColor;
     sceneContext.fillRect(0, 0, sceneCanvas.width, sceneCanvas.height);
 
     T.update(camera);
     T.draw(sceneContext);
-
-    document.getElementById("visNodesNumber").innerHTML = visibleNodesNumber(T);
-    //console.log(visibleNodesNumber(T));
 
     mesh.forEach(meshTriangle => {
         meshTriangle.draw(sceneContext);
@@ -159,6 +145,3 @@ window.addEventListener('mousemove', function(e) { // отслеживание �
     }
     camera.rotate(theta - camera.angle);
 });
-
-
-

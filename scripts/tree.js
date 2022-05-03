@@ -1,10 +1,11 @@
 import { AABB } from "./aabb.js";
-import { triangleAABBIntersection } from "./collision.js";
+import { triangleAABBIntersection, triangleOBBIntersection } from "./collision.js";
+import { OBB } from "./obb.js";
 
 export class Node {
     constructor(volume, meshTriangle, children, level){
         this.volume = volume;
-        this.visibility = false;
+        this.visibility = true;
         this.children = children;
         this.meshTriangle = meshTriangle;
         this.visNode = null; // Ссылка на узел визуализируемого дерева
@@ -25,6 +26,15 @@ export class Node {
         if (this.meshTriangle) {
             this.meshTriangle.update(camera);
         }
+        if (this.volume instanceof OBB) {
+            this.visibility = triangleOBBIntersection(camera.pyramid, this.volume);
+        }
+    }
+    setInvisible(){
+        this.visibility = false;
+        if (this.meshTriangle) {
+            this.meshTriangle.visibility = false;
+        }
     }
 }
 
@@ -37,13 +47,29 @@ export class Tree {
         this.updateSubTree(camera, this.root);
     }
 
+    setInvisibleSubTree(node) { // Делает дерево с корнем node невидимым
+        if (node) {
+            node.setInvisible();
+            if (node.children) {
+                node.children.forEach(child => {
+                    this.setInvisibleSubTree(child);
+                });
+            }
+        }
+    }
+
     updateSubTree(camera, node) {
         if (node) {
             node.update(camera);
-            if (node.children) {
-                node.children.forEach(child => {
-                    this.updateSubTree(camera, child);
-                });
+            if (node.visibility) { // Если после обновления данного узла он виден, то идем в детей и проверяем
+                if (node.children) {
+                    node.children.forEach(child => {
+                        this.updateSubTree(camera, child);
+                    });
+                }
+            }
+            else {
+                this.setInvisibleSubTree(node); // Делаем поддерево с корнем node невидимым
             }
         }
     }
@@ -62,4 +88,25 @@ export class Tree {
             });
         }
     }
+}
+
+
+export function visibleNodesNumber(T) {
+    return visibleNodeSubTree(T.root);
+}
+
+function visibleNodeSubTree(node) {
+    if (node == null) {
+        return 0;
+    }
+    let counter = 0;
+    if (node.visibility) {
+        counter++;
+        if (node.children){
+            node.children.forEach(child => {
+                counter += visibleNodeSubTree(child);
+            })
+        }
+    }
+    return counter;
 }

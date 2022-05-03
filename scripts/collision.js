@@ -1,6 +1,8 @@
 import { AABB } from "./aabb.js";
+import { MAX_X, MAX_Y } from "./constants.js";
 import { crossProduct } from "./cross_product.js";
 import { Point } from "./point.js";
+import { Vector } from "./vector.js";
 
 // Проверка на пересечение двух отрезков
 export function segmentsIntersection(s1Begin, s1End, s2Begin, s2End) {
@@ -32,7 +34,7 @@ export function segmentsIntersection(s1Begin, s1End, s2Begin, s2End) {
 // Принадлежит ли точка заданному треугольнику? 
 export function pointInTriangle(point, triangle) {
     // Получаем точку вне треугольника
-    const pointOut = new Point(100000, 1000000);
+    const pointOut = new Point(MAX_X, MAX_Y);
     let intersections = 0;
     for (let i = 0; i < 2; i++) {
         for (let j = i + 1; j < 3; j++) {
@@ -97,4 +99,53 @@ export function triangleAABBIntersection(triangle, aabb) {
     }
     // Если вершины треугольника не внутри бокса и нет пересечений, то проверяем вершину бокса
     return (pointInTriangle(aabb.min, triangle));
+}
+
+
+export function triangleOBBIntersection(triangle, obb){
+    for (let i = 0; i < 2; i++) {
+        // Если хотя бы одна вершина треугольника лежит внутри бокса
+        if (pointInOBB(triangle.vertices[i], obb)) {return true;}
+        for (let j = i + 1; j < 3; j++) {
+            if (
+                segmentsIntersection(triangle.vertices[i], triangle.vertices[j], 
+                    obb.vertices[0],  obb.vertices[1]) ||
+                segmentsIntersection(triangle.vertices[i], triangle.vertices[j], 
+                    obb.vertices[1],  obb.vertices[2]) ||
+                segmentsIntersection(triangle.vertices[i], triangle.vertices[j], 
+                    obb.vertices[2],  obb.vertices[3]) ||
+                segmentsIntersection(triangle.vertices[i], triangle.vertices[j], 
+                    obb.vertices[0],  obb.vertices[3])
+                )
+            {
+                return true;
+            }
+        }
+    }
+    // Если вершины треугольника не внутри бокса и нет пересечений, то проверяем вершину бокса
+    return (pointInTriangle(obb.vertices[0], triangle));
+}
+
+
+export function pointInOBB(point, obb) {
+    let intersections = 0;
+    // Получаем точку вне OBB! Подумать как сделать лучше
+    const pointOut = new Point(0, 0);
+    if(segmentsIntersection(point, pointOut, obb.vertices[0], obb.vertices[1])) {
+        let v = new Vector(point, pointOut);
+        intersections++;
+    }
+    if(segmentsIntersection(point, pointOut, obb.vertices[1], obb.vertices[2])) {
+        let v = new Vector(point, pointOut);
+        intersections++;
+    }
+    if(segmentsIntersection(point, pointOut, obb.vertices[2], obb.vertices[3])) {
+        let v = new Vector(point, pointOut);
+        intersections++;
+    }
+    if(segmentsIntersection(point, pointOut, obb.vertices[3], obb.vertices[0])) {
+        let v = new Vector(point, pointOut);
+        intersections++;
+    }
+    return (intersections % 2 == 1);
 }

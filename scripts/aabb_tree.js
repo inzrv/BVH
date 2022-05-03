@@ -1,4 +1,5 @@
 import { AABBForAABBs, AABBForTriangle } from "./aabb.js";
+import { comparePointsXY } from "./point.js";
 import { Tree, Node } from "./tree.js";
 
 export class AABBTree extends Tree {
@@ -40,11 +41,5 @@ function AABBNodesSort(nodes){ // Сортировка массива объек
 }
 
 function compareAABBNodes(node1, node2) { // Сравнение двух AABB: по возрастанию X, по возрастанию Y координаты левого верхнего угла
-    if (node1.volume.min.x < node2.volume.min.x) { // если первая коробка левее
-        return -1;
-    }
-    if (node1.volume.min.x > node2.volume.min.x) { //если вторая коробка левее
-        return 1;
-    }
-    return (node1.volume.min.y - node2.volume.min.y); // если координаты x равны, то сравниваем по y
+    return (comparePointsXY(node1.volume.min, node2.volume.min));
 }
