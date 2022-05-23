@@ -1,27 +1,132 @@
 body {
-    margin: 0;
-}
-
-canvas { 
-    border: 1px solid black; 
-}
-
-
-.container{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    padding: 20px;
+    background-color: rgb(31, 31, 31);
 }
 
-#con2{
-    width: 100%;
-    border: 1px solid black;
-    height: 300px;
+#menu {
+    width: 300px;
+    min-width: 300px;
+    height: auto;
+}
+
+canvas {
+    margin-bottom: 6px;
+}
+
+#canvases{
+    margin-left: 10px;
+    height: auto;
+    flex-grow: 1;
+}
+
+.panel {
+    background-color: rgb(42, 42, 42);
     padding-left: 10px;
-    margin-left: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-#con3{ 
-    padding-left: 20px;
+h1 {
+    font-size: large;
+    font-family: 'Inconsolata', monospace;
+    color: rgb(255, 255, 255);
+    padding-top: 10px;
 }
+
+p {
+    font-family: 'Inconsolata', monospace;
+    line-height: 100%;
+    color: rgb(203, 203, 203);
+}
+
+.value{
+    font-family: 'Inconsolata', monospace;
+    color: rgb(181, 193, 163);
+}
+
+#fileName {
+    margin-left: 5px;
+}
+
+
+.button {
+    color: rgb(42, 42, 42);
+    border: 1px solid;
+    border-color: rgb(150, 150, 150);
+    border-radius: 4px;
+    background-color:rgb(203, 203, 203);
+    cursor: pointer;
+}
+
+select {
+    padding-left: 2px;
+    color: rgb(42, 42, 42);
+    background-color:rgb(203, 203, 203);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.slider {
+    height: 2px;
+    cursor: pointer;
+}
+
+.check {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+  }
+  .check::before {
+    content: '';
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border: 1px solid rgb(150, 150, 150);;
+    border-radius: 2px;
+  }
+
+  /* стили при наведении курсора на checkbox */
+.check:not(:disabled):not(:checked):hover::before {
+    border-color: #80bdff;
+  }
+  /* стили для активного состояния чекбокса (при нажатии на него) */
+  .check:not(:disabled):active::before {
+    background-color: rgb(67, 115, 242);
+    border-color: #b3d7ff;
+  }
+
+  /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+  .check:focus:not(:checked)::before {
+    border-color: #80bdff;
+  }
+  /* стили для чекбокса, находящегося в состоянии disabled */
+  .check:disabled::before {
+    background-color: #e9ecef;
+  }
+
+  #messages {
+    color: rgb(150, 150, 150);
+    font-style: italic;
+    font-size: small;
+  }
+
+  #messagesWindow {
+    background-color: rgb(18, 18, 18);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid;
+    border-color: rgb(42, 42, 42);
+    padding-left: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  #deleteButton {
+    margin-top: 10px;
+    background-color: rgb(200, 125, 125);
+    color: rgb(42, 42, 42);
+    border: 1px solid;
+    border-color: rgb(136, 83, 83);
+    border-radius: 4px;
+  }

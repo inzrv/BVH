@@ -3,26 +3,91 @@
   <head>
     <meta charset="UTF-8" />
     <title>VKR2</title>
+    <link rel="icon" href="/icon.ico" /> 
     <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500;700&display=swap" rel="stylesheet">
+
+    <script src = "./scripts/index.js" type = "module"> </script>
   </head>
   <body>
-    <div class="container">
+        <div id="menu">
 
-      <div id="con1">
-        <canvas height = "500", width="1000", id = 'scene' ></canvas>
-      </div>
+            <div class="panel">
+                <h1>Information</h1>
+                <p>number of polygons: <span id="polyNumber" class="value"></span></p>
+                <p>tree height: <span id ="treeHeight" class="value" ></span></p>
+                <!-- <p>number of visible nodes: <span id ="visNodesNumber" class="value"></span></p> -->
+                <!-- <p>mesh area: <span id ="meshArea" class="value"></span></p> -->
+                <!-- <p>leaves area: <span id ="leavesArea" class="value" ></span></p> -->
+                <p>fit factor: <span id ="fitFactor" class="value" ></span></p>
+                <p>cost function value: <span id ="costFunction" class="value"></span></p>
+                <p>tree building time: <span id ="buildTime" class="value"></span></p>
+                <p>scene update time: <span id ="updateTime" class="value"></span></p>
+            </div>
 
-      <div id="con2">
-        <p>Количество полигонов: <span id="polyNumber"></span></p>
-        <p>Высота дерева: <span id ="treeHeight"></span></p>
-        <p>Количество видимых узлов: <span id ="visNodesNumber"></span></p>
-      </div>
+            <div class="panel">
+                <h1>Load Scene</h1>
 
-    </div>
+                <input type="button" class="button" value="Select file" onclick="document.getElementById('fileSelector').click();" />
+                <input type="file" style="display:none;" id ="fileSelector", accept=".obj", name="file"/>
+                <span id = "fileName" class="value"></span>   
+                
+            </div>
 
-    <div id="con3">
-      <canvas height = "200", width="1000", id = 'tree' ></canvas>
-    </div>
-    <script src = "./scripts/index.js" type = "module"> </script>
+            <div class="panel">
+                <h1>BVH Settings</h1>
+                <p>bounding volume type:
+                  <select name="bv" id="bvSelect">
+                  <option>AABB</option>
+                  <option>OBB</option>
+                  </select>
+                </p>
+                <p>building strategy: 
+                  <select name="buildStrategy" id="buildStrategy">
+                    <option>Top-down</option>
+                    <option>Bottom-up</option>
+                  </select>
+                </p>
+
+                <p>view mode: 
+                  <select name="viewMode" id="viewMode">
+                    <option>All</option>
+                    <option>Vis-only</option>
+                    <option>None</option>
+                  </select>
+                </p>
+
+                <button id="buildButton" class="button">Build BVH</button>
+                <br>
+                <button id="deleteButton" class="button">Delete BVH</button>
+            </div>
+
+            <div class="panel">
+                <h1>Camera Settings</h1>
+                <p>use camera: <input type="checkbox" id="cameraCheck" class="check"> </p>
+                <p> angle of view: <input type="range" class="slider" id="angleRange" min="1" max="179" step="1" value="18"> </p>
+                <p> distance: <input type="range" class="slider" id="distanceRange" min="1" max="1700" step="50" value="200"> </p>
+                <button id="applyButton" class="button" >Apply Settings</button>
+            </div>
+
+            <div class="panel" id="messagesWindow">
+              <p id="messages">Interesting messages for you :)</p>
+            </div>
+
+
+        </div>
+
+        <div id="canvases">
+            <div id="sceneBlock">
+                <canvas height = "500", width="1100", id = 'scene' ></canvas>
+            </div>
+            <div id="treeBlock">
+                <canvas height = "300", width="1100", id = 'tree' ></canvas>
+            </div>
+        </div>
+
   </body>
 </html>
