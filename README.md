@@ -1,3 +1,7 @@
-This is a study project as part of the work on the diploma. In addition, I have little experience in JS development, so please be understanding :) 
+Данный проект выполнен в рамках работы над ВКР. 
 
-![Иллюстрация](https://github.com/inzrv/bvh/blob/main/pic1.png)
+BVH или иерархия ограничивающих объемов – это древовидная структура данных, позволяющая оптимизировать работу с геометрическими данными. В данной работе BVH используется для определения факта пересечения полигона меша и пирамиды виртуальной камеры.
+
+![image](https://user-images.githubusercontent.com/86073105/171048832-f1fce64c-3f27-4c1b-9ac4-2511aad66567.png)
+
+_Интерфейс разработанного программного средства_
