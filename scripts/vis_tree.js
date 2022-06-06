@@ -15,20 +15,39 @@ export class VisTree {
         this.drawSubtree(ctx, this.tree.root, startX, maxWidth, 0, levelHeight); // Начинаем рисовать от корня
     }
 
+    drawNode(ctx, node, startX, nodeWidth, startY, levelHeight) {
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = '';
+        let fontColor = 'rgb(65, 65, 65)';
+        ctx.strokeRect(startX, startY, nodeWidth, levelHeight);
+        if (node.visibility) {
+            ctx.fillStyle = 'rgb(203, 203, 203)';
+        }
+        else {
+            ctx.fillStyle = 'rgb(65, 65, 65)';
+            fontColor = 'rgb(203, 203, 203)';
+        }
+        ctx.fillRect(startX, startY, nodeWidth, levelHeight);
+
+        if (nodeWidth > 100) { // Записываем координаты
+            ctx.fillStyle = fontColor;
+            ctx.font = '12px Arial';
+            const min = node.volume.getMinPoint();
+            const max = node.volume.getMaxPoint();
+            let strMin = '[' + min.x.toFixed(0) + ' ; ' + min.y.toFixed(0) + ']';
+            let strMax = '[' + max.x.toFixed(0) + ' ; ' + max.y.toFixed(0) + ']';
+
+            ctx.fillText(strMin, startX + 5,  startY + 15);
+            ctx.fillText(strMax, startX + nodeWidth - 60,  startY + 15);
+
+        }
+    }
+
     drawSubtree(ctx, node, startX, nodeWidth, startY, levelHeight) {
         if (node) {
             if (nodeWidth > 4) {
             // Рисуем сам узел
-                ctx.lineWidth = 0.5;
-                ctx.strokeStyle = '';
-                ctx.strokeRect(startX, startY, nodeWidth, levelHeight);
-                if (node.visibility) {
-                    ctx.fillStyle = 'rgb(203, 203, 203)';
-                }
-                else {
-                    ctx.fillStyle = 'rgb(65, 65, 65)';
-                }
-                ctx.fillRect(startX, startY, nodeWidth, levelHeight);
+                this.drawNode(ctx, node, startX, nodeWidth, startY, levelHeight);
                 // Проходим его детей
                 if (node.children) {
                     const childrenNumber = node.children.length; // Количество детей
