@@ -23,7 +23,16 @@ export class AABB {
             ctx.fillRect(this.min.x, this.min.y, this.max.x - this.min.x, this.max.y - this.min.y);
         }
     }
+
+    getMinPoint() {
+        return this.min;
+    }
+
+    getMaxPoint() {
+        return this.max;
+    }
 }
+
 
 // Построить AABB для треугольника
 export function AABBForTriangle(triangle) {

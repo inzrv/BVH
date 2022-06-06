@@ -34,6 +34,26 @@ export class OBB {
     area(){
         return Math.abs(crossProduct(this.vertices[0], this.vertices[1], this.vertices[0], this.vertices[3]));
     }
+
+    getMinPoint(){
+        let min = this.vertices[0];
+        for (let i = 1; i < 4; i++) {
+            if (comparePointsXY(this.vertices[i], min) < 0) {
+                min = this.vertices[i];
+            }
+        }
+        return min;
+    }
+
+    getMaxPoint(){
+        let max = this.vertices[0];
+        for (let i = 1; i < 4; i++) {
+            if (comparePointsXY(this.vertices[i], max) > 0) {
+                max = this.vertices[i];
+            }
+        }
+        return max;
+    }
 }
 
 // Возврашает минимальный OBB по переданному набору точек
